@@ -1,14 +1,31 @@
+// ==========================================
+// Name  : app.js
+// Author: Patrick Salguero
+// Date  : Sab 10 de Feb - 2018
+// Descr : Configuracion del Servidor Inicial
+// ==========================================
+
 //Componentes requeridos
-const express = require('express');
+const express = require('express')
 const mongoose= require('mongoose')
+const bodyParser = require('body-parser')
+const configuration = require('./config/configuration')
 
 //Globals
-const PORT    = 9091;
-const URL_MDB = 'mongodb://127.0.0.1:27017/hospitalDB'
+const PORT    = configuration.SYS_PORT
+const URL_MDB = configuration.CON_STRING
+
+//Rutas por roles
+const app_routes = require('./routes/app')
+const user_routes = require('./routes/user')
+const login_routes = require('./routes/login')
 
 //Inicializar variables
-const app    = express();
+const app    = express()
 
+//Middlewares
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use( bodyParser.json() )
 
 //Conexion de la BD Mongo DB
 mongoose.connect(URL_MDB , err => {
@@ -16,17 +33,14 @@ mongoose.connect(URL_MDB , err => {
     if( err ) throw err
 })
 
+//Rutas de la Aplicaccion
+app.use( '/user' ,user_routes )
+app.use( '/', app_routes )
+app.use( '/login' , login_routes )
 
-//Rutass
-app.get("/", (request,response, nextFunct ) => {
-    response.status(200).json({
-        ok: true,
-        message:'Petición realizada correctamente.'
-    });
-})
 
 //Configuracion del Servidor
 app.listen(PORT, () => {
     console.log('Servidor online!!')
-    console.log('PORT :: \x1b[43m%s\x1b[0m' , PORT );
+    console.log('PORT :: \x1b[43m%s\x1b[0m' , PORT )
 })
