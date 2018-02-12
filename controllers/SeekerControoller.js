@@ -29,7 +29,8 @@ const findByCollection = ( request , response , nextFunction ) => {
                 return response.status(200).json({
                     ok: true ,
                     search: findText ,
-                    doctors : doctors
+                    doctors : doctors,
+                    collection : collection
                 })
             }).catch( err => console.log('Error ', err ))
         break;
@@ -39,7 +40,8 @@ const findByCollection = ( request , response , nextFunction ) => {
                 return response.status(200).json({
                     ok : true ,
                     search : findText ,
-                    hospitals : hospitals
+                    hospitals : hospitals ,
+                    collection : collection
                 })
             })
         break;
@@ -49,7 +51,8 @@ const findByCollection = ( request , response , nextFunction ) => {
                 return response.status(200).json({
                     ok : true ,
                     search : findText ,
-                    users : users
+                    users : users ,
+                    collection : collection
                 })
             }).catch( err => console.log('Erro en Usuarios', err ))
         break;
