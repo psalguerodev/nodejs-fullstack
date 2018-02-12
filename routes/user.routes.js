@@ -1,33 +1,47 @@
+//	Configuracion para las rutas
 const express  = require('express')
 const app      = express()
+const auth     = require('../middlewares/auth')
+
+//	Configuracion para los controladores
 const bcrypt   = require('bcrypt')
 const jwt      = require('jsonwebtoken')
 
 const User     = require('../models/User')
 const config   = require('../config/configuration')
 
-const auth     = require('../middlewares/auth')
 
 // ==========================================
 // Listado de usuarios
 // ==========================================
 app.get('/',  (request, response ,nextFunction ) => {
 
+    let since = request.query.since || 0
+    since = Number( since )
+
     User.find({} , 'name email img role' ) 
+    .skip( since )
+    .limit(2)
     .exec ( ( err , result ) => {
-        if( !err ){
-            return response.status(200).json({
-                ok : true ,
-                users : result
+
+        //	Control si sucede un error en la busqueda
+        if( err ){
+            return response.status(500).json({
+                ok : false ,
+                message: 'Ha ocurrido un error al procesar la información.',
+                users : null ,
+                errors : err
             })
         }
-        
-        return response.status(500).json({
-            ok : false ,
-            message: 'Ha ocurrido un error al procesar la información.',
-            users : null ,
-            errors : err
-        })
+
+        //	Mostrar al usuario el total de registros
+        User.count( {} , ( err2 , count ) => {
+            return response.status(200).json({
+                ok : true ,
+                users : result,
+                total : count
+            })
+        }) 
         
     })
 })

@@ -16,9 +16,12 @@ const PORT    = configuration.SYS_PORT
 const URL_MDB = configuration.CON_STRING
 
 //Rutas por roles
-const app_routes = require('./routes/app')
-const user_routes = require('./routes/user')
-const login_routes = require('./routes/login')
+const app_routes = require('./routes/app.routes')
+const user_routes = require('./routes/user.routes')
+const login_routes = require('./routes/login.routes')
+const doctor_routes = require('./routes/doctor.routes')
+const hospital_routes = require('./routes/hospital.routes')
+const seeker_routes = require('./routes/seeker.routes')
 
 //Inicializar variables
 const app    = express()
@@ -35,8 +38,11 @@ mongoose.connect(URL_MDB , err => {
 
 //Rutas de la Aplicaccion
 app.use( '/user' ,user_routes )
-app.use( '/', app_routes )
 app.use( '/login' , login_routes )
+app.use( '/hospital' , hospital_routes )
+app.use( '/doctor', doctor_routes )
+app.use( '/seeker', seeker_routes )
+app.use( '/', app_routes )
 
 
 //Configuracion del Servidor
