@@ -13,5 +13,6 @@ const seekerCtrl = require('../controllers/SeekerControoller')
 //	Rutas para el buscador
 app.get('/all/:text' , seekerCtrl.findInAll )
 
+app.get('/collection/:collection/:text' , seekerCtrl.findByCollection )
 
 module.exports = app

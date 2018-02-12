@@ -14,10 +14,58 @@ const User     = require('../models/User')
 // Busqueda por colleccion segun parametro
 // ==========================================
 const findByCollection = ( request , response , nextFunction ) => {
-    const collection = request.params.collection
-    const findText   = request.params.text
-}
+    let collection = request.params.collection
+    let findText   = request.params.text
 
+    let regExt = new RegExp( findText , 'i' )
+
+    console.log('Buscando : ' + findText )
+    console.log('Colleccion a Buscar: ' + collection )
+
+    switch( collection.toLowerCase() ){
+        case 'doctors':
+            console.log('Busqueda de doctor.');
+            findAllDoctorByText( findText , regExt ).then( doctors => {
+                return response.status(200).json({
+                    ok: true ,
+                    search: findText ,
+                    doctors : doctors
+                })
+            }).catch( err => console.log('Error ', err ))
+        break;
+        case 'hospitals':
+            console.log('Busqueda de hospital.');
+            findAllHospitalByText( findText , regExt ).then( hospitals => {
+                return response.status(200).json({
+                    ok : true ,
+                    search : findText ,
+                    hospitals : hospitals
+                })
+            })
+        break;
+        case 'users':
+            console.log('Busqueda de usuarios')
+            findAllUserByText( findText , regExt ).then( users => {
+                return response.status(200).json({
+                    ok : true ,
+                    search : findText ,
+                    users : users
+                })
+            }).catch( err => console.log('Erro en Usuarios', err ))
+        break;
+
+        default :
+            console.log('Coleccion no correcta')
+            return response.status(200).json({
+                ok : false ,
+                search : findText,
+                collection : collection,
+                message: 'La coleccion indicada no es correcta.'
+            })
+        break;
+    }
+
+}
 
 // ==========================================
 // Busqueda en collecciones del Sistema
@@ -101,5 +149,6 @@ const findAllUserByText = ( text , regExt ) => {
 
 
 module.exports = {
-    findInAll
+    findInAll,
+    findByCollection
 }
