@@ -91,6 +91,16 @@ const uploadByCollectionAndId = ( id , filename  , collection , response ) => {
         case 'users':
             //	Busqueda de la persona
             User.findById( id , ( err , user ) => {
+                if( err ) return response.status(500).json({ ok : false , errors : err})
+
+                //	Validacion en caso el usuario no exista
+                if( !user ){
+                    return response.status(404).json({
+                        ok : false ,
+                        message : 'El usuarui con id : ' + id + ' no existe.'
+                    })
+                }
+
                 if ( user != null ) {
                     if( user.img  ){
                         let oldpath = './uploads/users/' + user.img
@@ -120,6 +130,16 @@ const uploadByCollectionAndId = ( id , filename  , collection , response ) => {
         case 'hospitals':
             // Busqueda de hospital por id
             Hospital.findById( id , ( err , hospital ) => {
+                if( err ) return response.status(500).json({ ok : false , errors : err})
+
+                //	Validacion en caso el hospital no exista
+                if( !hospital ){
+                    return response.status(404).json({
+                        ok : false ,
+                        message : 'El hospital con id : ' + id + ' no existe.'
+                    })
+                }
+
                 if( hospital != null ){
                     if( hospital.img ){
                         let path_file = './uploads/hospitals/' + hospital.img
@@ -146,6 +166,16 @@ const uploadByCollectionAndId = ( id , filename  , collection , response ) => {
         case 'doctors':
             //	Busqueda de doctores por id
             Doctor.findById( id ,( err , doctor ) => {
+                if( err ) return response.status(500).json({ ok : false , errors : err})
+
+                //	Validacion en caso el doctor no exista
+                if( !doctor ){
+                    return response.status(404).json({
+                        ok : false ,
+                        message : 'El doctor con id : ' + id + ' no existe.'
+                    })
+                }
+
                 if( doctor != null ) {
                     if( doctor.img ){
                         let path_file = './uploads/doctors/' + doctor.img
