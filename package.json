@@ -16,7 +16,8 @@
     "express-fileupload": "^0.4.0",
     "jsonwebtoken": "^8.1.1",
     "mongoose": "^5.0.4",
-    "mongoose-unique-validator": "^2.0.0"
+    "mongoose-unique-validator": "^2.0.0",
+    "serve-index": "^1.9.1"
   },
   "devDependencies": {
     "nodemon": "^1.14.12"

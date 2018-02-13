@@ -23,6 +23,7 @@ const doctor_routes = require('./routes/doctor.routes')
 const hospital_routes = require('./routes/hospital.routes')
 const seeker_routes = require('./routes/seeker.routes')
 const upload_routes = require('./routes/upload.routes')
+const image_routes = require('./routes/image.routes')
 
 //Inicializar variables
 const app    = express()
@@ -37,6 +38,11 @@ mongoose.connect(URL_MDB , err => {
     if( err ) throw err
 })
 
+// Mostrar imagene del servidor /uploads Servidor de archivos
+// const serverIndex = require('serve-index')
+// app.use( express.static(__dirname + '/') )
+// app.use( '/uploads' , serverIndex( __dirname + '/uploads' ) )
+
 //Rutas de la Aplicaccion
 app.use( '/user' ,user_routes )
 app.use( '/login' , login_routes )
@@ -44,7 +50,7 @@ app.use( '/hospital' , hospital_routes )
 app.use( '/doctor', doctor_routes )
 app.use( '/seeker', seeker_routes )
 app.use( '/upload' , upload_routes )
-
+app.use( '/image' , image_routes )
 app.use( '/', app_routes )
 
 

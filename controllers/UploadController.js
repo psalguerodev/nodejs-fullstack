@@ -42,11 +42,6 @@ const uplodadFileByCollection = ( request , response , nextFunction ) => {
     let filename   = samplefile.name.split('.')
     let extension  = filename[ filename.length - 1 ]
     let path_file  = ''
-
-    console.log('Archivo recibido: ' , samplefile )
-    console.log('Path file: ' + path_file )
-    console.log('Collection: ' + collection )
-    console.log('Id : ' + id )
     
     //	Extensiones permitidas para imagenes
     const allowedExt = ['jpg','jpeg','png','gif']
