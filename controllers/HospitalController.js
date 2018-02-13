@@ -6,7 +6,7 @@
 // ==========================================
 
 const Hospital = require('../models/Hospital')
-
+const fs  = require('fs')
 
 // ==========================================
 // Listar todos los Hospitales de la DB
@@ -159,6 +159,12 @@ const deleteHospital = ( request , response , nextFunction ) => {
                 ok : false ,
                 message: 'Hospital no encontrado'
             })
+        }
+
+        // Eliminar imagen del servidor
+        let path_file = './uploads/hospitals/' + result.img
+        if( fs.existsSync( path_file ) ) {
+            fs.unlink( path_file )
         }
 
         return response.status(200).json({

@@ -107,7 +107,7 @@ const uploadByCollectionAndId = ( id , filename  , collection , response ) => {
 
                     user.save( (err , userupdated ) => {
                         userupdated.password = undefined
-
+                        if( err ) return response.status(500).json({ ok : false , errors : err})
                         return response.status(200).json({
                             ok : true ,
                             message: 'Imagen del usuario ' + userupdated.name + ' actualizado.',
@@ -118,10 +118,56 @@ const uploadByCollectionAndId = ( id , filename  , collection , response ) => {
             })
         break;
         case 'hospitals':
-            
+            // Busqueda de hospital por id
+            Hospital.findById( id , ( err , hospital ) => {
+                if( hospital != null ){
+                    if( hospital.img ){
+                        let path_file = './uploads/hospitals/' + hospital.img
+                        if( fs.existsSync( path_file ) ){
+                            fs.unlink( path_file )
+                        }
+                    }
+
+                    //	Actualizar perfil del hospital
+                    hospital.img = filename
+                    hospital.save( ( err , hospitalupdated ) => {
+                        if( err ) return response.status(500).json({ ok : false , errors : err})
+                        if( hospitalupdated != null ){
+                            return response.status(200).json({
+                                ok: true ,
+                                hospital : hospitalupdated,
+                                message : 'Se ha actualizado hospital ' + hospitalupdated.name 
+                            })
+                        }
+                    })
+                }
+            })
         break;
         case 'doctors':
-            
+            //	Busqueda de doctores por id
+            Doctor.findById( id ,( err , doctor ) => {
+                if( doctor != null ) {
+                    if( doctor.img ){
+                        let path_file = './uploads/doctors/' + doctor.img
+                        if( fs.existsSync( path_file ) ) {
+                            fs.unlink( path_file )
+                        }
+                    }
+
+                    //	Actualizar los datos del doctor
+                    doctor.img = filename
+                    doctor.save( ( err , doctoruploaded ) => {
+                        if( err ) return response.status(500).json({ ok : false , errors : err})
+                        if( doctoruploaded != null ){
+                            return response.status(200).json({
+                                ok : true ,
+                                message : 'El doctor ' + doctoruploaded.name + ' se ha actualizado',
+                                doctor : doctoruploaded
+                            })
+                        }
+                    })
+                }
+            })
         break;
         default:
         break;

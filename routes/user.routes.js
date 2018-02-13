@@ -6,6 +6,7 @@ const auth     = require('../middlewares/auth')
 //	Configuracion para los controladores
 const bcrypt   = require('bcrypt')
 const jwt      = require('jsonwebtoken')
+const fs       = require('fs')
 
 const User     = require('../models/User')
 const config   = require('../config/configuration')
@@ -162,6 +163,14 @@ app.delete('/:id', auth.verifyJWT, (req, res , nextFunction ) => {
               message: 'Usuario con ID ' + id + ' no encontrado'
           })
       }
+
+      // Eliminar imagen del servidor
+      let path_file = './uploads/users/' + result.img
+      if( fs.existsSync( path_file ) ) {
+        fs.unlink( path_file )
+      }
+
+
       // Usuario existe y se elimina correctamente
       result.password = undefined
       result.role     = undefined

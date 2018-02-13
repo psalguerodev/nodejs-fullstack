@@ -6,6 +6,7 @@
 // ==========================================
 
 const Doctor   = require('../models/Doctor')
+const fs       = require('fs')
 
 // ==========================================
 // Listado total de Doctores DB
@@ -136,6 +137,12 @@ const deleteDoctorByID = ( request , response , nextFunction ) => {
                 ok : false,
                 message: 'No se ha encontrado Doctor con el ID: '+ id
             })
+        }
+
+        // Eliminar imagen del servidor
+        let path_file = './uploads/doctors/' + result.img
+        if( fs.existsSync( path_file ) ) {
+            fs.unlink( path_file )
         }
 
         return response.status(200).json({
