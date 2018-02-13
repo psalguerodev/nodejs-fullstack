@@ -22,6 +22,7 @@ const login_routes = require('./routes/login.routes')
 const doctor_routes = require('./routes/doctor.routes')
 const hospital_routes = require('./routes/hospital.routes')
 const seeker_routes = require('./routes/seeker.routes')
+const upload_routes = require('./routes/upload.routes')
 
 //Inicializar variables
 const app    = express()
@@ -42,6 +43,8 @@ app.use( '/login' , login_routes )
 app.use( '/hospital' , hospital_routes )
 app.use( '/doctor', doctor_routes )
 app.use( '/seeker', seeker_routes )
+app.use( '/upload' , upload_routes )
+
 app.use( '/', app_routes )
 
 
