@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Metadata para Google SignIn -->
+    <meta name="google-signin-client_id" content="621727429813-1v0nidi7859hc6fj84ntub7j8qefeh4p.apps.googleusercontent.com">
+
+    <title>SignIn - Google</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <!-- Librerias de Google SignIn -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-4" style="margin-top:50px">
+                <h3>Login | Google </h3>
+                <div class="g-signin2" data-onsuccess="onSignIn"></div> <br>
+                <button class="btn btn-danger btn-sm" onclick="signOut()"> Cerrar sessión</button>
+            </div>
+
+            <div class="col-8">
+                <p>ID: <span id="id"></span></p>
+                <p>Nombre: <span id="name"></span></p> 
+                <p>Email: <span id="email"></span></p>
+                <p>Token : <span id="token"></span></p>
+                <br>
+                <img src="" alt="" id="img">
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            var id_token = googleUser.getAuthResponse().id_token;
+
+            document.getElementById('id').innerText = profile.getId();
+            document.getElementById('name').innerText = profile.getName();
+            document.getElementById('email').innerText = profile.getEmail();
+            document.getElementById('img').src = profile.getImageUrl();
+            document.getElementById('token').innerText = id_token;
+
+            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+            console.log('Token : ' + id_token );
+        }
+
+        function signOut(){
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+                console.log('User signed out.');
+                document.getElementById('id').innerText = '';
+                document.getElementById('name').innerText = '';
+                document.getElementById('email').innerText = '';
+                document.getElementById('img').src = '';
+                document.getElementById('token').innerText = '';
+                console.clear();
+            });
+        }
+    </script>
+
+</body>
+</html>
