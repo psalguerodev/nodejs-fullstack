@@ -1,0 +1,9 @@
+Nombre del Proyecto Google - SignIn
+-----------------------------------
+Name App : google-signin-hospital
+
+
+Id del cliente : 621727429813-1v0nidi7859hc6fj84ntub7j8qefeh4p.apps.googleusercontent.com
+Llave secreta  : mIQri9_0n3stQAncjydZvhOa
+
+------------------------------------

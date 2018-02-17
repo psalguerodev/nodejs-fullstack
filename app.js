@@ -24,6 +24,8 @@ const hospital_routes = require('./routes/hospital.routes')
 const seeker_routes = require('./routes/seeker.routes')
 const upload_routes = require('./routes/upload.routes')
 const image_routes = require('./routes/image.routes')
+const google_routes = require('./routes/google-signin.routes')
+
 
 //Inicializar variables
 const app    = express()
@@ -46,6 +48,7 @@ mongoose.connect(URL_MDB , err => {
 //Rutas de la Aplicaccion
 app.use( '/user' ,user_routes )
 app.use( '/login' , login_routes )
+app.use( '/login' , google_routes )
 app.use( '/hospital' , hospital_routes )
 app.use( '/doctor', doctor_routes )
 app.use( '/seeker', seeker_routes )
@@ -55,7 +58,11 @@ app.use( '/', app_routes )
 
 
 //Configuracion del Servidor
-app.listen(PORT, () => {
-    console.log('Servidor online!!')
-    console.log('PORT :: \x1b[43m%s\x1b[0m' , PORT )
-})
+try{
+    app.listen(PORT, () => {
+        console.log('Servidor online!!')
+        console.log('PORT :: \x1b[43m%s\x1b[0m' , PORT )
+    })
+}catch( ex ){
+    console.log( "Err >> " + ex )
+}
