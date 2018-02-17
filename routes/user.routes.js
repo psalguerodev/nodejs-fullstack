@@ -50,7 +50,7 @@ app.get('/',  (request, response ,nextFunction ) => {
 // ==========================================
 // Agregar un nuevo usuario
 // ==========================================
-app.post('/', auth.verifyJWT ,(request, response , nextFunction ) => {
+app.post('/' ,(request, response , nextFunction ) => {
 
     const body = request.body
 
