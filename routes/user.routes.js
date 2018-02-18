@@ -115,13 +115,13 @@ app.put('/:id', auth.verifyJWT ,(request, response , nextFunction ) => {
         // Grabar usuario encontrado
         user.save( (err , savedU ) => {
             if( err  || !savedU ) {
-                return response.status(500).json({
+                return response.status(400).json({
                     ok: false,
                     message: 'Ocurrió un error al actualizar usuario.',
                     errors : err
                 })
             }
-            user.password = '.|.'
+            user.password = undefined
             return response.status(200).json({
                 ok : true,
                 user: user
