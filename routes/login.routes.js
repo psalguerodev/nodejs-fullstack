@@ -40,6 +40,14 @@ app.post('/', (req, res) => {
             })
         }
 
+        //	Verificar si tiene login por google
+        if( result.google ) {
+            return res.status(400).json({
+                ok: false ,
+                message : 'El usuario ' + body.email + ' no autentificación por password'
+            })
+        }
+
         //	Verificar si las constraseñas son incorrectas
         if( !bcrypt.compareSync( body.password , result.password ) ){
             return res.status(400).json({

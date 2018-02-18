@@ -22,7 +22,7 @@ app.get('/',  (request, response ,nextFunction ) => {
 
     User.find({} , 'name email img role' ) 
     .skip( since )
-    .limit(2)
+    .limit(10)
     .exec ( ( err , result ) => {
 
         //	Control si sucede un error en la busqueda
