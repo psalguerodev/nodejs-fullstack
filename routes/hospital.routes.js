@@ -14,6 +14,8 @@ const hospitalCtrl = require('../controllers/HospitalController')
 //	Rutas del Hospital
 app.get('/' , hospitalCtrl.getListAllHospitals )
 
+app.get('/:id' , hospitalCtrl.getHospitalById )
+
 app.post('/' , mdlware.verifyJWT , hospitalCtrl.saveHospital )
 
 app.put('/:id' , mdlware.verifyJWT , hospitalCtrl.updateHospital )

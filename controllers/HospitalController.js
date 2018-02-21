@@ -18,8 +18,6 @@ const getListAllHospitals = ( request , response , nextFunction ) => {
 
     Hospital.find({})
         .populate('user', 'email , name ')
-        .skip( since )
-        .limit(2)
         .exec((err , result ) => {
             //	Si ocurre un error al listar hospitales
             if( err ) {
@@ -40,6 +38,43 @@ const getListAllHospitals = ( request , response , nextFunction ) => {
            })
     
         })
+}
+
+// ==========================================
+// Obtener Hospital por ID 
+// ==========================================
+const getHospitalById = ( request , response , nextFunction ) => {
+    const hospital_id = request.params.id
+
+    Hospital.findById( hospital_id )
+            .populate( 'user' ,'name role img email')
+            .exec( (err , hospital  ) => {
+                // Control si existe algun error 
+                if ( err ) {
+                    return response.status(500).json({
+                        ok : false , 
+                        message : 'Ha ocurrido un error al buscar Hospital'
+                    })
+                }
+
+                // En caso no se encuentre el hospital
+                if( !hospital ) {
+                    return response.status( 404 ).json({
+                        ok : false ,
+                        message: 'El Hospital con ID: ' + hospital_id + ' no existe'
+                    })
+                }
+
+
+                //En caso el Hospital si existe
+                return response.status(200).json({
+                    ok : false ,
+                    message: 'El Hospital se ha encontrado ',
+                    hospital : hospital
+                })
+
+            })
+
 }
 
 // ==========================================
@@ -179,5 +214,6 @@ module.exports = {
     saveHospital,
     getListAllHospitals,
     updateHospital,
-    deleteHospital
+    deleteHospital,
+    getHospitalById
 }
