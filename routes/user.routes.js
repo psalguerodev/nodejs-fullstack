@@ -20,9 +20,9 @@ app.get('/',  (request, response ,nextFunction ) => {
     let since = request.query.since || 0
     since = Number( since )
 
-    User.find({} , 'name email img role' ) 
+    User.find({} , 'name email img role google' ) 
     .skip( since )
-    .limit(10)
+    .limit(5)
     .exec ( ( err , result ) => {
 
         //	Control si sucede un error en la busqueda

@@ -104,7 +104,7 @@ const findAllDoctorByText  = ( text , regExt) => {
     return new Promise( (resolve ,reject ) => {
         Doctor.find( { name : regExt })
         .populate('hospital', 'name')
-        .populate('user', 'name , email')
+        .populate('user', 'name , email , img')
         .limit(10)
         .exec( (err , result ) => {
             if( err ) reject('Error al buscar Doctores.' , err )
@@ -122,7 +122,7 @@ const findAllHospitalByText = ( text , regExt ) => {
     return new Promise( (resolve, reject ) => {
         Hospital
         .find( { name : regExt })
-        .populate('user' ,'email , name')
+        .populate('user' ,'email , name , img')
         .limit(10)
         .exec( (err , result ) => {
             if( err ) reject('Error al buscar Hospitales.' , err )
@@ -138,7 +138,7 @@ const findAllHospitalByText = ( text , regExt ) => {
 // ==========================================
 const findAllUserByText = ( text , regExt ) => {
     return new Promise( (resolve , reject ) => {
-        User.find( {} , 'email , name , role')
+        User.find( {} , 'email , name , role , img , google')
         .or( [ { name: regExt } , { email : regExt } ] )
         .limit(10)
         .exec( ( err , result ) => {
