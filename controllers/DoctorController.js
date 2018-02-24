@@ -19,8 +19,8 @@ const getListAllDoctor = ( request , response , nextFunction ) => {
     Doctor.find({})
         .populate('user' , 'email , name ')
         .populate('hospital', 'name')
-        .skip( since )
-        .limit(2)
+        // .skip( since )
+        // .limit(5)
         .exec(( err , results ) => {
             //	Control si hay error al listar
             if( err ){
@@ -40,6 +40,40 @@ const getListAllDoctor = ( request , response , nextFunction ) => {
             })
 
         })
+}
+
+// ==========================================
+// Obtener un Doctor por ID
+// ==========================================
+const getDoctorById = ( request , response , nextFunction ) => {
+    const id_doctor = request.params.id || null
+    Doctor.findById( id_doctor )
+          .populate( 'hospital' , 'name img')
+          .exec( (err , result ) => {
+        if( err ) {
+            return response.status(500).json({
+                ok : false ,
+                message : 'Error al buscar Doctor con ID ' + id_doctor,
+                errors : err
+            })
+        }
+
+        //	En caso el Doctor con el ID seleccionado no existe
+        if( !result ) {
+            return response.status(404).json({
+                ok: false ,
+                message: 'El Doctor con ID ' + id_doctor + ' no existe.'
+            })
+        }
+
+        //	En caso el Doctor sleccionado si existe
+        return response.status(200).json({
+            ok : true , 
+            message: 'El doctor se ha encontrado' ,
+            doctor : result
+        })
+
+    })
 }
 
 // ==========================================
@@ -156,5 +190,6 @@ module.exports = {
     getListAllDoctor,
     saveDoctor,
     updateDoctorByID,
-    deleteDoctorByID
+    deleteDoctorByID,
+    getDoctorById
 }
