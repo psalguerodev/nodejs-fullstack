@@ -85,7 +85,7 @@ app.post('/' ,(request, response , nextFunction ) => {
 // ==========================================
 // Actualizar usuario
 // ==========================================
-app.put('/:id', auth.verifyJWT ,(request, response , nextFunction ) => {
+app.put('/:id', [auth.verifyJWT, auth.verifyAdminOrdSomeUser ] ,(request, response , nextFunction ) => {
 
     const body = request.body
     const id   = request.params.id

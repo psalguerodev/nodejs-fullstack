@@ -66,12 +66,65 @@ app.post('/', (req, res) => {
             token : token,
             message : 'Login correcto',
             body : result,
-            id : result._id
+            id : result._id,
+            menu : getMenuList( result.role )
         })
        
     })
     
 })
+
+const getMenuList = ( role ) => {
+    let menu = [
+        {
+          title : 'Principal',
+          icon  : 'mdi mdi-gauge',
+          submenu : [
+            {
+              title : 'Dashboard',
+              path  : '/dashboard'
+            },
+            {
+              title : 'Barra de Progreso',
+              path  : '/progress'
+            },
+            {
+              title : 'Graficas',
+              path  : '/graphone'
+            },
+            {
+              title : 'Promesas',
+              path  : '/promises'
+            },
+            {
+              title : 'Observables Rxjs',
+              path  : '/rxjs'
+            },
+          ]
+        },
+        {
+          //Mantenimientos
+          title : 'Mantenimientos',
+          icon : 'mdi mdi-folder-lock-open',
+          submenu : [
+            {
+              title : 'Hospitales',
+              path: '/hospitals'
+            },
+            {
+              title: 'Doctores',
+              path : '/doctors'
+            }
+          ]
+        }
+      ]
+
+      if( role.trim() === 'ADMIN_ROLE' ){
+        menu[1].submenu.unshift( { title: 'Usuarios' , path:'/users' })
+      }
+
+      return menu
+}
 
 
 module.exports = app

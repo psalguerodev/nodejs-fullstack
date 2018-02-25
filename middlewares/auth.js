@@ -40,6 +40,45 @@ const verifyJWT = (req, res, next) => {
 
 }
 
+
+const verifyAdmin = ( request , response , next ) => {
+    let user = request.user
+
+    //	En caso que si es un admin el usuario
+    if( user.role === 'ADMIN_ROLE' ){
+        return next()
+    }
+
+    //	En caso no es admin
+    return response.status(401).json({
+        ok : false ,
+        message: 'El usuario que realizá la petición no es Administrador.',
+        errors : { message : 'No tiene acceso para realizar la petición'}
+    })
+
+}
+
+const verifyAdminOrdSomeUser = ( request , response , next ) => {
+    let user = request.user
+    let id = request.params.id || null
+
+    //	En caso que si es un admin el usuario
+    if( user.role === 'ADMIN_ROLE'  || user._id == id ){
+        return next()
+    }
+
+    //	En caso no es admin
+    return response.status(401).json({
+        ok : false ,
+        message: 'El usuario que realizá la petición no es Administrador ni el mismo usuario.',
+        errors : { message : 'No tiene acceso para realizar la petición'}
+    })
+}
+
+
+
 module.exports  = {
-    verifyJWT
+    verifyJWT,
+    verifyAdmin,
+    verifyAdminOrdSomeUser
 }
