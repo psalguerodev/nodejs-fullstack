@@ -13,7 +13,7 @@ const configuration = require('./config/configuration')
 
 //Globals
 const PORT    = configuration.SYS_PORT
-const URL_MDB = configuration.CON_STRING
+const URL_MDB = configuration.CON_STRING_MLAB
 
 //Rutas por roles
 const app_routes = require('./routes/app.routes')

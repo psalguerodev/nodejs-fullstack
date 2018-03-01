@@ -9,10 +9,27 @@ const app      = express()
 const bcrypt   = require('bcrypt')
 const jwt      = require('jsonwebtoken')
 const config   = require('../config/configuration')
-
+const verify   = require('../middlewares/auth')
 
 const User     = require('../models/User')
 const key_secret = config.KEY_SECRET
+
+// ==========================================
+// Generar un nuevo token
+// ==========================================
+app.post('/renewtoken' , verify.verifyJWT  , ( req , res , next ) => {
+  let user = req.user
+
+  //	Generar token
+  const token = jwt.sign( { user : user  } , key_secret , { expiresIn: 14400 } ) // 4 Horas
+
+  return res.status(200).json({
+    ok : true ,
+    token : token
+  })
+
+})
+
 
 // ==========================================
 // Metodo para ejecutar el login con JWT
